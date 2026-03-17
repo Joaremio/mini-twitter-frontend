@@ -20,6 +20,7 @@ interface PostProps {
 }
 
 export function PostCard({ post }: PostProps) {
+  const [userHasLiked, setUserHasLiked] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(post.title);
   const [editContent, setEditContent] = useState(post.content);
@@ -27,9 +28,16 @@ export function PostCard({ post }: PostProps) {
   const { user } = useAuthStore();
 
   const likeMutation = useMutation({
-    mutationFn: () => api.post(`/posts/${post.id}/like`),
-    onSuccess: () => {
+    mutationFn: async () => {
+      const response = await api.post(`/posts/${post.id}/like`);
+      return response.data;
+    },
+    onSuccess: (data) => {
+      setUserHasLiked(data.liked);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
+    onError: () => {
+      alert("Erro ao curtir o post.");
     },
   });
 
@@ -56,7 +64,7 @@ export function PostCard({ post }: PostProps) {
 
   const isAuthor = String(user?.id) === String(post.authorId);
   return (
-    <article className="p-5 bg-white shadow-sm rounded-xl border border-gray-100 transition-all hover:shadow-md">
+    <article className="p-5 bg-white shadow-sm rounded-md border border-gray-100 transition-all hover:shadow-md ">
       {isEditing ? (
         <div className="space-y-3">
           <input
@@ -88,16 +96,38 @@ export function PostCard({ post }: PostProps) {
       ) : (
         <>
           <div className="flex justify-between items-start">
-            <div>
-              <h3 className="font-bold text-lg text-gray-900">{post.title}</h3>
-              <p className="text-xs text-gray-400 mb-2">
-                Por: {post.authorName} •{" "}
-                {new Date(post.createdAt).toLocaleDateString()}
+            {/* CONTAINER PRINCIPAL DA ESQUERDA */}
+            <div className="flex flex-col gap-1 w-full">
+              {/* 1. LINHA DO AUTOR E DATA */}
+              <div className="flex items-center gap-2 overflow-hidden">
+                <h3 className="font-semibold text-[#0F1419] whitespace-nowrap">
+                  {post.authorName}
+                </h3>
+                <div className="flex items-center gap-1 text-gray-500 truncate">
+                  <span className="text-sm">
+                    @{post.authorName.toLowerCase().replace(/\s+/g, "")}
+                  </span>
+                  <span className="text-gray-400">•</span>
+                  <span className="text-sm">
+                    {new Date(post.createdAt).toLocaleDateString("pt-BR")}
+                  </span>
+                </div>
+              </div>
+
+              {/* 2. TÍTULO DO POST */}
+              <h1 className="text-lg font-bold text-[#0F1419]  mt-1">
+                {post.title}
+              </h1>
+
+              {/* 3. CONTEÚDO DO POST */}
+              <p className="mt-1 text-[#0F1419]  leading-relaxed">
+                {post.content}
               </p>
             </div>
 
+            {/* BOTÕES DE AÇÃO (SÓ APARECEM SE FOR AUTOR) */}
             {isAuthor && (
-              <div className="flex gap-2">
+              <div className="flex gap-2 ml-4">
                 <button
                   onClick={() => setIsEditing(true)}
                   className="text-gray-400 hover:text-blue-500 transition-colors"
@@ -117,8 +147,7 @@ export function PostCard({ post }: PostProps) {
             )}
           </div>
 
-          <p className="mt-2 text-gray-800 leading-relaxed">{post.content}</p>
-
+          {/* IMAGEM (SE EXISTIR) */}
           {post.image && (
             <img
               src={post.image}
@@ -127,6 +156,7 @@ export function PostCard({ post }: PostProps) {
             />
           )}
 
+          {/* RODAPÉ (LIKES) */}
           <div className="mt-4 pt-4 border-t border-gray-50 flex items-center gap-6">
             <button
               onClick={() => likeMutation.mutate()}
@@ -135,9 +165,9 @@ export function PostCard({ post }: PostProps) {
               <Heart
                 size={20}
                 className={
-                  post.likesCount > 0
+                  userHasLiked
                     ? "fill-red-500 text-red-500"
-                    : "group-hover:scale-110 transition-transform"
+                    : "text-gray-500 group-hover:scale-110 transition-transform"
                 }
               />
               <span className="text-sm font-medium">{post.likesCount}</span>
