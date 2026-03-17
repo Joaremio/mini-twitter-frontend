@@ -33,6 +33,7 @@ export default function LoginPage() {
       const { token, user } = response.data;
 
       localStorage.setItem("b2bit_token", token);
+      localStorage.setItem("b2bit_user", JSON.stringify(user));
 
       setUser(user);
 
