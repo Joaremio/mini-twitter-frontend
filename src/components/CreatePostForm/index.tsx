@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/services/api";
 import { createPostSchema, CreatePostData } from "@/schemas/post";
+import { ImageIcon } from "lucide-react";
 
 export function CreatePostForm() {
   const queryClient = useQueryClient();
@@ -22,6 +23,7 @@ export function CreatePostForm() {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<CreatePostData>({
     resolver: zodResolver(createPostSchema),
@@ -30,13 +32,15 @@ export function CreatePostForm() {
   const mutation = useMutation({
     mutationFn: async (data: CreatePostData) => {
       let imageString = "";
-
       if (data.image?.[0]) {
         imageString = await fileToBase64(data.image[0]);
       }
 
+      const postTitle =
+        data.title || data.content.split("\n")[0].substring(0, 50);
+
       return api.post("/posts", {
-        title: data.title,
+        title: postTitle,
         content: data.content,
         image: imageString,
       });
@@ -44,50 +48,48 @@ export function CreatePostForm() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       reset();
-      alert("Post criado com sucesso!");
+      alert("Post enviado!");
     },
   });
 
   return (
     <form
       onSubmit={handleSubmit((data) => mutation.mutate(data))}
-      className="bg-white p-6 rounded-lg shadow mb-8 border"
+      className="bg-white px-4 py-2 rounded-2xl shadow mb-8 border border-gray-300/50"
     >
-      <h2 className="text-xl font-bold mb-4">No que você está pensando?</h2>
+      <input type="hidden" {...register("title")} />
 
-      <div className="space-y-4">
-        <input
-          {...register("title")}
-          placeholder="Título do post"
-          className="w-full p-2 border rounded focus:ring-2 focus:ring-blue-500 outline-none"
-        />
-        {errors.title && (
-          <p className="text-red-500 text-sm">{errors.title.message}</p>
-        )}
-
+      <div className="flex flex-col ">
         <textarea
-          {...register("content")}
-          placeholder="Escreva seu post aqui..."
-          className="w-full p-2 border rounded h-24 resize-none outline-none"
+          {...register("content", {
+            onChange: (e) => {
+              const firstLine = e.target.value.split("\n")[0];
+              setValue("title", firstLine.substring(0, 50));
+            },
+          })}
+          placeholder="E aí, o que está rolando?"
+          className="w-full text-lg p-2 px-4 mt-3 border-none focus:ring-0 outline-none resize-none min-h-[88px] placeholder-gray-500 text-gray-800"
         />
+
         {errors.content && (
           <p className="text-red-500 text-sm">{errors.content.message}</p>
         )}
 
-        <div className="flex items-center justify-between">
-          <input
-            type="file"
-            {...register("image")}
-            className="text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-          />
+        <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+          <label className="cursor-pointer p-2 hover:bg-blue-50 rounded-full transition-colors group">
+            <input type="file" {...register("image")} className="hidden" />
+            <ImageIcon className="text-twitter" size={26} />
+          </label>
+
           <button
             type="submit"
             disabled={mutation.isPending}
-            className="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 disabled:bg-gray-400 transition-all"
+            className="bg-twitter hover:bg-twitter-hover text-white px-8 py-2 text-sm rounded-full  shadow-md transition-all active:scale-95 disabled:opacity-50 cursor-pointer"
           >
             {mutation.isPending ? "Postando..." : "Postar"}
           </button>
         </div>
+
         {errors.image && (
           <p className="text-red-500 text-sm">{String(errors.image.message)}</p>
         )}

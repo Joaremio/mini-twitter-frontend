@@ -10,6 +10,8 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-twitter: #1d9bf0;
+  --color-twitter-hover: #1a8cd8;
 }
 
 @media (prefers-color-scheme: dark) {
