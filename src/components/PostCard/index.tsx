@@ -96,9 +96,7 @@ export function PostCard({ post }: PostProps) {
       ) : (
         <>
           <div className="flex justify-between items-start">
-            {/* CONTAINER PRINCIPAL DA ESQUERDA */}
             <div className="flex flex-col gap-1 w-full">
-              {/* 1. LINHA DO AUTOR E DATA */}
               <div className="flex items-center gap-2 overflow-hidden">
                 <h3 className="font-semibold text-[#0F1419] whitespace-nowrap">
                   {post.authorName}
@@ -114,18 +112,15 @@ export function PostCard({ post }: PostProps) {
                 </div>
               </div>
 
-              {/* 2. TÍTULO DO POST */}
               <h1 className="text-lg font-bold text-[#0F1419]  mt-1">
                 {post.title}
               </h1>
 
-              {/* 3. CONTEÚDO DO POST */}
               <p className="mt-1 text-[#0F1419]  leading-relaxed">
                 {post.content}
               </p>
             </div>
 
-            {/* BOTÕES DE AÇÃO (SÓ APARECEM SE FOR AUTOR) */}
             {isAuthor && (
               <div className="flex gap-2 ml-4">
                 <button
@@ -146,8 +141,6 @@ export function PostCard({ post }: PostProps) {
               </div>
             )}
           </div>
-
-          {/* IMAGEM (SE EXISTIR) */}
           {post.image && (
             <img
               src={post.image}
@@ -155,8 +148,6 @@ export function PostCard({ post }: PostProps) {
               className="mt-4 rounded-lg max-h-80 w-full object-cover border border-gray-100"
             />
           )}
-
-          {/* RODAPÉ (LIKES) */}
           <div className="mt-4 pt-4 border-t border-gray-50 flex items-center gap-6">
             <button
               onClick={() => likeMutation.mutate()}

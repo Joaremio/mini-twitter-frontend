@@ -16,7 +16,7 @@ export const useAuthStore = create<AuthState>()(
         localStorage.removeItem("b2bit_token");
         localStorage.removeItem("b2bit_user");
         set({ user: null });
-        window.location.href = "/login";
+        window.location.href = "/auth";
       },
     }),
     {
