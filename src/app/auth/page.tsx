@@ -8,13 +8,13 @@ export default function AuthPage() {
   const [tab, setTab] = useState("login");
 
   return (
-    <div className="flex min-h-screen w-screen items-center justify-center bg-gray-100 text-sm">
+    <div className="flex min-h-screen w-screen items-center justify-center bg-background text-foreground text-sm transition-colors duration-300">
       <div className="w-[400px] flex flex-col items-center justify-center h-screen">
-        <h1 className="text-4xl font-semibold text-twitter p-2">
+        <h1 className="text-4xl font-semibold text-twitter dark:text-white p-2">
           Mini Twitter
         </h1>
-        <div className="  p-4 mt-4">
-          <div className="flex border-b border-gray-300">
+        <div className="p-4 mt-4">
+          <div className="flex border-b border-border">
             <button
               onClick={() => setTab("login")}
               className={`w-1/2 font-semibold pb-2 border-b transition cursor-pointer

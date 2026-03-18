@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/services/api";
 import { useAuthStore } from "@/store/auth-store";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface PostProps {
   post: {
@@ -37,7 +38,7 @@ export function PostCard({ post }: PostProps) {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
     },
     onError: () => {
-      alert("Erro ao curtir o post.");
+      toast.error("Erro ao curtir o post.");
     },
   });
 
@@ -50,7 +51,7 @@ export function PostCard({ post }: PostProps) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       setIsEditing(false);
-      alert("Post atualizado!");
+      toast.success("Post atualizado!");
     },
   });
 
@@ -58,36 +59,36 @@ export function PostCard({ post }: PostProps) {
     mutationFn: () => api.delete(`/posts/${post.id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      alert("Post removido!");
+      toast.info("Post removido!");
     },
   });
 
   const isAuthor = String(user?.id) === String(post.authorId);
   return (
-    <article className="p-5 bg-white shadow-sm rounded-md border border-gray-100 transition-all hover:shadow-md ">
+    <article className="p-5 bg-card shadow-sm rounded-xl border border-border transition-all hover:shadow-md">
       {isEditing ? (
         <div className="space-y-3">
           <input
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
-            className="w-full p-2 border rounded font-bold text-black"
+            className="w-full p-2 border border-border rounded-lg font-bold bg-background text-foreground outline-none focus:border-twitter"
           />
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}
-            className="w-full p-2 border rounded h-24 text-black"
+            className="w-full p-2 border border-border rounded-lg h-24 bg-background text-foreground outline-none focus:border-twitter resize-none"
           />
           <div className="flex gap-2">
             <button
               onClick={() => updateMutation.mutate()}
               disabled={updateMutation.isPending}
-              className="bg-blue-500 text-white px-4 py-1 rounded text-sm hover:bg-blue-600 disabled:bg-gray-400"
+              className="bg-twitter text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-twitter-hover disabled:opacity-50 transition-colors cursor-pointer"
             >
               {updateMutation.isPending ? "Salvando..." : "Salvar"}
             </button>
             <button
               onClick={() => setIsEditing(false)}
-              className="bg-gray-200 px-4 py-1 rounded text-sm hover:bg-gray-300 text-black"
+              className="bg-gray-100 dark:bg-white/10 px-4 py-2 rounded-full text-sm hover:bg-gray-200 dark:hover:bg-white/20 text-foreground transition-colors cursor-pointer"
             >
               Cancelar
             </button>
@@ -98,7 +99,7 @@ export function PostCard({ post }: PostProps) {
           <div className="flex justify-between items-start">
             <div className="flex flex-col gap-1 w-full">
               <div className="flex items-center gap-2 overflow-hidden">
-                <h3 className="font-semibold text-[#0F1419] whitespace-nowrap">
+                <h3 className="font-bold text-foreground whitespace-nowrap">
                   {post.authorName}
                 </h3>
                 <div className="flex items-center gap-1 text-gray-500 truncate">
@@ -112,11 +113,11 @@ export function PostCard({ post }: PostProps) {
                 </div>
               </div>
 
-              <h1 className="text-lg font-bold text-[#0F1419]  mt-1">
+              <h1 className="text-lg font-bold text-foreground mt-1">
                 {post.title}
               </h1>
 
-              <p className="mt-1 text-[#0F1419]  leading-relaxed">
+              <p className="mt-1 text-foreground/90 leading-relaxed">
                 {post.content}
               </p>
             </div>
@@ -125,7 +126,7 @@ export function PostCard({ post }: PostProps) {
               <div className="flex gap-2 ml-4">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="text-gray-400 hover:text-blue-500 transition-colors"
+                  className="text-gray-400 hover:text-twitter dark:hover:text-white transition-colors p-1  rounded-full"
                 >
                   <Edit size={18} />
                 </button>
@@ -134,34 +135,46 @@ export function PostCard({ post }: PostProps) {
                     if (confirm("Deseja realmente excluir este post?"))
                       deleteMutation.mutate();
                   }}
-                  className="text-gray-400 hover:text-red-500 transition-colors"
+                  className="text-gray-400 hover:text-red-500 transition-colors p-1 hover:bg-red-500/10 rounded-full"
                 >
                   <Trash2 size={18} />
                 </button>
               </div>
             )}
           </div>
+
           {post.image && (
-            <img
-              src={post.image}
-              alt={post.title}
-              className="mt-4 rounded-lg max-h-80 w-full object-cover border border-gray-100"
-            />
+            <div className="mt-4 rounded-2xl overflow-hidden border border-border">
+              <img
+                src={post.image}
+                alt={post.title}
+                className="max-h-96 w-full object-cover"
+              />
+            </div>
           )}
-          <div className="mt-4 pt-4 border-t border-gray-50 flex items-center gap-6">
+
+          <div className="mt-4 pt-4 border-t border-border flex items-center gap-6">
             <button
               onClick={() => likeMutation.mutate()}
-              className="flex items-center gap-1 text-gray-500 hover:text-red-500 transition-colors group"
+              className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition-colors group cursor-pointer"
             >
-              <Heart
-                size={20}
-                className={
-                  userHasLiked
-                    ? "fill-red-500 text-red-500"
-                    : "text-gray-500 group-hover:scale-110 transition-transform"
-                }
-              />
-              <span className="text-sm font-medium">{post.likesCount}</span>
+              <div
+                className={`p-2 rounded-full transition-colors ${userHasLiked ? "text-red-500" : "group-hover:bg-red-500/10"}`}
+              >
+                <Heart
+                  size={20}
+                  className={
+                    userHasLiked
+                      ? "fill-red-500 text-red-500"
+                      : "group-hover:scale-110 transition-transform"
+                  }
+                />
+              </div>
+              <span
+                className={`text-sm font-medium ${userHasLiked ? "text-red-500" : ""}`}
+              >
+                {post.likesCount}
+              </span>
             </button>
           </div>
         </>

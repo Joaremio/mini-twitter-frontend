@@ -1,18 +1,39 @@
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #f7f9f9;
+  --foreground: #0f1419;
+  --card: #ffffff;
+  --border: #eff3f4;
+  --twitter: #1d9bf0;
+  --twitter-hover: #1a8cd8;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #ffffff;
+  --card: #1e293b;
+  --border: #2d3f55;
+}
+
 @theme inline {
-  --color-twitter: #1d9bf0;
-  --color-twitter-hover: #1a8cd8;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-twitter: var(--twitter);
+  --color-twitter-hover: var(--twitter-hover);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    transition:
+      background-color 0.3s ease,
+      color 0.3s ease;
   }
-}
-
-body {
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }

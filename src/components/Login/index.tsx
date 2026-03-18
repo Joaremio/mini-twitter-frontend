@@ -7,6 +7,7 @@ import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
 import { Mail, Lock } from "lucide-react";
+import { toast } from "sonner";
 
 const loginSchema = z.object({
   email: z.string().email("Insira um e-mail válido"),
@@ -30,7 +31,6 @@ export default function Login() {
   const onSubmit = async (data: LoginForm) => {
     try {
       const response = await api.post("/auth/login", data);
-
       const { token, user } = response.data;
 
       localStorage.setItem("b2bit_token", token);
@@ -40,17 +40,20 @@ export default function Login() {
 
       router.push("/");
     } catch (error: any) {
-      alert(
-        error.response?.data?.message ||
-          "Erro ao fazer login. Verifique suas credenciais.",
+      toast.error(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          "Erro ao fazer login.",
       );
     }
   };
 
   return (
-    <div className="mt-8 w-full">
-      <p className="text-twitter text-2xl font-bold">Olá, de novo!</p>
-      <p className="text-sm text-gray-400">
+    <div className="mt-8 w-full animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <h2 className="text-twitter dark:text-white text-2xl font-bold">
+        Olá, de novo!
+      </h2>
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         Por favor, insira os dados solicitados para fazer o login.
       </p>
 
@@ -58,56 +61,56 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4 mt-6"
       >
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-500">E-mail</label>
-
-          <div className="relative">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground/70 ml-1">
+            E-mail
+          </label>
+          <div className="relative group">
             <input
               {...register("email")}
               type="email"
               placeholder="Insira o seu e-mail"
-              className="w-full border border-gray-300 bg-white rounded-md p-2 pr-10 focus:outline-none focus:border-(--color-twitter)"
+              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
             />
-
             <Mail
               size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter  dark:text-white transition-colors"
             />
           </div>
-
           {errors.email && (
-            <p className="text-sm text-red-500">{errors.email.message}</p>
+            <p className="text-xs text-red-500 ml-1">{errors.email.message}</p>
           )}
         </div>
 
-        <div className="flex flex-col gap-1">
-          <label className="text-gray-500">Senha</label>
-
-          <div className="relative">
+        <div className="flex flex-col gap-1.5">
+          <label className="text-sm font-medium text-foreground/70 ml-1">
+            Senha
+          </label>
+          <div className="relative group">
             <input
               {...register("password")}
               type="password"
               placeholder="Insira a sua senha"
-              className="w-full border border-gray-300 bg-white rounded-md p-2 pr-10 focus:outline-none focus:border-(--color-twitter)"
+              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
             />
-
             <Lock
               size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter dark:text-white transition-colors"
             />
           </div>
-
           {errors.password && (
-            <p className="text-sm text-red-500">{errors.password.message}</p>
+            <p className="text-xs text-red-500 ml-1">
+              {errors.password.message}
+            </p>
           )}
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="mt-4 w-full bg-(--color-twitter) text-white font-semibold py-2 rounded-md hover:bg-(--color-twitter-hover) transition disabled:opacity-60"
+          className="mt-6 w-full bg-twitter hover:bg-twitter-hover text-white font-bold py-3 rounded-full shadow-lg shadow-twitter/20 cursor-pointer transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Carregando..." : "Entrar"}
+          {isSubmitting ? "Entrando..." : "Entrar"}
         </button>
       </form>
     </div>

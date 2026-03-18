@@ -12,7 +12,7 @@ import { Header } from "@/components/Header";
 export default function TimelinePage() {
   const { ref, inView } = useInView();
   const [search, setSearch] = useState("");
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     usePosts(search);
 
@@ -21,10 +21,14 @@ export default function TimelinePage() {
       fetchNextPage();
     }
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+
   const allPosts = data?.pages.flatMap((page) => page.posts || []) || [];
 
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div
+      className="min-h-screen transition-colors duration-300"
+      style={{ backgroundColor: "var(--background)" }}
+    >
       <Header onSearch={setSearch} />
 
       <main className="max-w-2xl mx-auto p-4">
@@ -32,23 +36,37 @@ export default function TimelinePage() {
 
         <div className="space-y-6">
           {isLoading && (
-            <p className="text-center text-gray-500">Buscando tweets...</p>
+            <p className="text-center text-gray-500 animate-pulse mt-10">
+              Buscando tweets...
+            </p>
           )}
 
           {allPosts.map((post: any) => (
             <PostCard key={post.id} post={post} />
           ))}
+
+          {!isLoading && allPosts.length === 0 && (
+            <div className="text-center py-20">
+              <p className="text-gray-500 text-lg">
+                Nenhum tweet encontrado para "{search}"
+              </p>
+            </div>
+          )}
         </div>
 
-        <div ref={ref} className="h-20 flex items-center justify-center mt-4">
+        <div ref={ref} className="h-40 flex items-center justify-center mt-4">
           {isFetchingNextPage && (
-            <p className="text-twitter font-medium animate-pulse">
-              Carregando mais tweets...
-            </p>
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-6 h-6 border-2 border-twitter border-t-transparent rounded-full animate-spin" />
+              <p className="text-twitter font-medium text-sm dark:text-white">
+                Carregando mais tweets...
+              </p>
+            </div>
           )}
+
           {!hasNextPage && allPosts.length > 0 && (
-            <p className="text-gray-400 text-sm">
-              Você chegou ao fim da linha.
+            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium italic">
+              — Você chegou ao fim da linha —
             </p>
           )}
         </div>
