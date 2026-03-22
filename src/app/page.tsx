@@ -5,12 +5,13 @@ import { useAuthStore } from "@/store/auth-store";
 import { CreatePostForm } from "@/components/CreatePostForm";
 import { usePosts } from "@/hooks/use-posts";
 import { PostCard } from "@/components/PostCard";
-import { LogOut, Search } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import { Header } from "@/components/Header";
 
 export default function TimelinePage() {
-  const { ref, inView } = useInView();
+  const { ref, inView } = useInView({
+    threshold: 1,
+  });
   const [search, setSearch] = useState("");
   const { user } = useAuthStore();
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -20,18 +21,18 @@ export default function TimelinePage() {
     if (inView && hasNextPage && !isFetchingNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [inView]);
 
   const allPosts = data?.pages.flatMap((page) => page.posts || []) || [];
 
   return (
     <div
-      className="min-h-screen transition-colors duration-300"
+      className="min-h-screen flex flex-col transition-colors duration-300"
       style={{ backgroundColor: "var(--background)" }}
     >
       <Header onSearch={setSearch} />
 
-      <main className="max-w-2xl mx-auto p-4">
+      <main className="max-w-2xl mx-auto p-4 flex-1">
         {user && <CreatePostForm />}
 
         <div className="space-y-6">
@@ -48,7 +49,8 @@ export default function TimelinePage() {
           {!isLoading && allPosts.length === 0 && (
             <div className="text-center py-20">
               <p className="text-gray-500 text-lg">
-                Nenhum tweet encontrado para "{search}"
+                Não foi possível encontrar nenhum tweet.<br></br>Tente novamente
+                mais tarde!
               </p>
             </div>
           )}
