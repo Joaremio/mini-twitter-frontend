@@ -9,7 +9,7 @@ const ACCEPTED_IMAGE_TYPES = [
 ];
 
 export const createPostSchema = z.object({
-  title: z.string().min(5, "O título deve ter pelo menos 5 caracteres"),
+  title: z.string().min(1, "O título deve ter pelo menos 1 caracteres"),
   content: z.string().min(1, "O conteúdo não pode estar vazio"),
   image: z
     .any()
