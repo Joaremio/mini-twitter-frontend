@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mini Twitter - B2Bit Challenge
 
-## Getting Started
+Este é um projeto de Mini Twitter desenvolvido como parte de um desafio técnico para a vaga de Desenvolvedor Frontend. A aplicação permite criar, visualizar, curtir e gerenciar posts em tempo real, com suporte completo a Modo Dark e design responsivo.
 
-First, run the development server:
+## 🚀 Tecnologias
+
+- **Framework: Next.js 15 (App Router)**
+
+- **Estilização**: Tailwind CSS v4
+
+- **Gerenciamento de Estado**: Zustand (Auth) & TanStack Query v5 (Data Fetching)
+
+- **Formulários**: React Hook Form + Zod (Validação)
+
+- **Ícones**: Lucide React
+
+- **Notificações (Toast)**: Sonner
+
+- **Containerização**: Docker
+
+## 🛠️ Funcionalidades
+
+- **CRUD de Posts**: Criação, listagem, edição e exclusão.
+
+- **Busca em Tempo Real** : Filtro de posts por título
+
+- **Autenticação Completa**: Registro, Login e Logout.
+
+- **Sistema de Likes**: Toggle de likes em posts (apenas um por usuário).
+
+## 📦 Como Rodar com Docker
+
+A maneira mais fácil de iniciar o projeto é usando Docker:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# 1. Build da imagem
+docker build -t mini-twitter-front .
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+```bash
+# 2. Iniciar o container
+docker run -p 3001:3000 -e NEXT_PUBLIC_API_URL=http://host.docker.internal:3000 mini-twitter-front
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 💻 Como Rodar Localmente
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Certifique-se de ter o Node.js (v20+) instalado e o backend rodando na porta 3000.
 
-## Learn More
+```bash
+# Instalar dependências
+bun install
 
-To learn more about Next.js, take a look at the following resources:
+# 2. Configurar variável de ambiente
+# Crie um arquivo .env.local com: NEXT_PUBLIC_API_URL=http://localhost:3000
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Iniciar em modo de desenvolvimento
+bun run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🗄️ Diferenciais do Projeto
 
-## Deploy on Vercel
+- **Modo Dark Dinâmico**: Suporte a temas claro/escuro e adaptação automática à preferência do sistema.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Componentização**: Arquitetura baseada em componentes reutilizáveis (ex: Input e PostCard).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Infinite Scroll**: Carregamento automático de novas páginas conforme o scroll do usuário.
+
+- **UX/UI**: Feedbacks visuais de carregamento, Toasts de erro/sucesso e animações suaves com Tailwind.
+
+- **Dockerizado**: Ambiente de desenvolvimento padronizado para facilitar a avaliação.
+
+## 🗄️ Estrutura do Projeto
+
+- `src/app/`: Rotas e Layouts (App Router).
+- `src/components/`: Componentes reutilizáveis.
+- `src/hooks/`: Hooks customizados.
+- `src/services/`: Configuração do Axios e chamadas de API.
+- `src/store/`: Gerenciamento de estado global (Zustand).
+- `src/schemas/`: Validações Zod.
