@@ -20,8 +20,8 @@ export default function AuthPage() {
               className={`w-1/2 font-semibold pb-2 border-b transition cursor-pointer
               ${
                 tab === "login"
-                  ? "border-(--color-twitter) text-(--color-twitter)"
-                  : "border-transparent text-gray-500 hover:border-(--color-twitter) hover:text-(--color-twitter)"
+                  ? "border-(--color-twitter) text-twitter dark:text-white"
+                  : "border-transparent text-gray-500 hover:border-(--color-twitter) hover:text-twitter dark:hover:text-white"
               }`}
             >
               Login
@@ -32,8 +32,8 @@ export default function AuthPage() {
               className={`w-1/2 font-semibold pb-2 border-b transition cursor-pointer
               ${
                 tab === "register"
-                  ? "border-(--color-twitter) text-(--color-twitter)"
-                  : "border-transparent text-gray-500 hover:border-(--color-twitter) hover:text-(--color-twitter)"
+                  ? "border-(--color-twitter) text-twitter dark:text-white"
+                  : "border-transparent text-gray-500 hover:border-(--color-twitter) hover:text-twitter dark:hover:text-white"
               }`}
             >
               Cadastrar
@@ -43,6 +43,11 @@ export default function AuthPage() {
           <div className="flex items-center">
             {tab === "login" ? <Login /> : <Register />}
           </div>
+          <p className="mt-8 text-[12px] text-center text-blue-950 dark:text-gray-500 ">
+            Ao clicar em continuar, você concorda com nossos <br></br>
+            <span className="underline">Termos de Serviço</span> e{" "}
+            <span className="underline">Política de Privacidade</span>
+          </p>
         </div>
       </div>
     </div>

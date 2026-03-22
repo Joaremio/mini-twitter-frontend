@@ -6,6 +6,7 @@ import { api } from "@/services/api";
 import { useAuthStore } from "@/store/auth-store";
 import { useState } from "react";
 import { toast } from "sonner";
+import { Input } from "../Input";
 
 interface PostProps {
   post: {
@@ -73,6 +74,7 @@ export function PostCard({ post }: PostProps) {
             onChange={(e) => setEditTitle(e.target.value)}
             className="w-full p-2 border border-border rounded-lg font-bold bg-background text-foreground outline-none focus:border-twitter"
           />
+
           <textarea
             value={editContent}
             onChange={(e) => setEditContent(e.target.value)}

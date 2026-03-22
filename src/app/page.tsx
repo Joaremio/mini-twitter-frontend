@@ -63,14 +63,13 @@ export default function TimelinePage() {
               </p>
             </div>
           )}
-
-          {!hasNextPage && allPosts.length > 0 && (
-            <p className="text-gray-500 dark:text-gray-400 text-sm font-medium italic">
-              — Você chegou ao fim da linha —
-            </p>
-          )}
         </div>
       </main>
+      <footer className="text-left p-4 flex flex-1 bg-card">
+        <h1 className="text-xl ml-8 font-bold text-twitter shrink-0 dark:text-white">
+          Mini Twitter
+        </h1>
+      </footer>
     </div>
   );
 }

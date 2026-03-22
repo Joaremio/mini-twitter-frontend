@@ -6,8 +6,10 @@ import * as z from "zod";
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/auth-store";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye } from "lucide-react";
 import { toast } from "sonner";
+import { Input } from "../Input";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.string().email("Insira um e-mail válido"),
@@ -17,6 +19,7 @@ const loginSchema = z.object({
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const setUser = useAuthStore((state) => state.setUser);
 
@@ -61,48 +64,31 @@ export default function Login() {
         onSubmit={handleSubmit(onSubmit)}
         className="w-full flex flex-col gap-4 mt-6"
       >
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground/70 ml-1">
-            E-mail
-          </label>
-          <div className="relative group">
-            <input
-              {...register("email")}
-              type="email"
-              placeholder="Insira o seu e-mail"
-              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
-            />
-            <Mail
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter  dark:text-white transition-colors"
-            />
-          </div>
-          {errors.email && (
-            <p className="text-xs text-red-500 ml-1">{errors.email.message}</p>
-          )}
-        </div>
+        <Input
+          label="E-mail"
+          type="email"
+          icon={Mail}
+          placeholder="Insira o seu e-mail"
+          error={errors.email}
+          {...register("email")}
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground/70 ml-1">
-            Senha
-          </label>
-          <div className="relative group">
-            <input
-              {...register("password")}
-              type="password"
-              placeholder="Insira a sua senha"
-              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
-            />
-            <Lock
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter dark:text-white transition-colors"
-            />
-          </div>
-          {errors.password && (
-            <p className="text-xs text-red-500 ml-1">
-              {errors.password.message}
-            </p>
-          )}
+        <div className="relative">
+          <Input
+            label="Senha"
+            type={showPassword ? "text" : "password"}
+            placeholder="Insira a sua senha"
+            error={errors.password}
+            {...register("password")}
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev: any) => !prev)}
+            className="absolute right-4 top-[38px] text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
         </div>
 
         <button
@@ -110,7 +96,7 @@ export default function Login() {
           disabled={isSubmitting}
           className="mt-6 w-full bg-twitter hover:bg-twitter-hover text-white font-bold py-3 rounded-full shadow-lg shadow-twitter/20 cursor-pointer transition-all active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Entrando..." : "Entrar"}
+          {isSubmitting ? "Entrando..." : "Continuar"}
         </button>
       </form>
     </div>

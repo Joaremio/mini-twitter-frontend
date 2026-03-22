@@ -5,9 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { api } from "@/services/api";
 import { useRouter } from "next/navigation";
-import { Lock, Mail, User } from "lucide-react";
+import { Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import { useAuthStore } from "@/store/auth-store";
 import { toast } from "sonner";
+import { Input } from "@/components/Input";
+import { useState } from "react";
 
 const registerSchema = z.object({
   name: z.string().min(3, "Nome deve ter no mínimo 3 caracteres"),
@@ -19,7 +21,9 @@ type RegisterForm = z.infer<typeof registerSchema>;
 
 export default function Register() {
   const setUser = useAuthStore((state) => state.setUser);
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -63,69 +67,40 @@ export default function Register() {
         className="w-full flex flex-col gap-4 mt-6"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground/70 ml-1">
-            Nome
-          </label>
-          <div className="relative group">
-            <input
-              {...register("name")}
-              type="text"
-              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
-              placeholder="Insira o seu nome"
-            />
-            <User
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter dark:group-focus-within:text-white transition-colors"
-            />
-          </div>
-          {errors.name && (
-            <p className="text-red-500 text-xs ml-1">{errors.name.message}</p>
-          )}
-        </div>
+        <Input
+          label="Nome"
+          type="text"
+          icon={User}
+          placeholder="Insira o seu nome"
+          error={errors.name}
+          {...register("name")}
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground/70 ml-1">
-            E-mail
-          </label>
-          <div className="relative group">
-            <input
-              {...register("email")}
-              type="email"
-              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
-              placeholder="Insira o seu e-mail"
-            />
-            <Mail
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter dark:group-focus-within:text-white transition-colors"
-            />
-          </div>
-          {errors.email && (
-            <p className="text-red-500 text-xs ml-1">{errors.email.message}</p>
-          )}
-        </div>
+        <Input
+          label="E-mail"
+          type="email"
+          icon={Mail}
+          placeholder="Insira o seu e-mail"
+          error={errors.email}
+          {...register("email")}
+        />
 
-        <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-foreground/70 ml-1">
-            Senha
-          </label>
-          <div className="relative group">
-            <input
-              {...register("password")}
-              type="password"
-              className="w-full border border-border bg-background rounded-xl p-3 pr-10 outline-none focus:border-twitter focus:ring-2 focus:ring-twitter/10 transition-all text-foreground placeholder:text-gray-400"
-              placeholder="Crie uma senha forte"
-            />
-            <Lock
-              size={18}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-twitter dark:group-focus-within:text-white transition-colors"
-            />
-          </div>
-          {errors.password && (
-            <p className="text-red-500 text-xs ml-1">
-              {errors.password.message}
-            </p>
-          )}
+        <div className="relative">
+          <Input
+            label="Senha"
+            type={showPassword ? "text" : "password"}
+            placeholder="Insira a sua senha"
+            error={errors.password}
+            {...register("password")}
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword((prev: any) => !prev)}
+            className="absolute right-4 top-[38px] text-gray-500 hover:text-gray-700"
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
         </div>
 
         <button

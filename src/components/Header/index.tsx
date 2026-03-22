@@ -4,6 +4,7 @@ import { LogOut, Moon, Search, Sun } from "lucide-react";
 import { useAuthStore } from "@/store/auth-store";
 
 import { useTheme } from "@/context/theme-context";
+import Link from "next/link";
 
 interface HeaderProps {
   onSearch: (value: string) => void;
@@ -58,12 +59,20 @@ export function Header({ onSearch }: HeaderProps) {
             </button>
           </>
         ) : (
-          <a
-            href="/auth"
-            className="bg-twitter text-white px-6 py-2 rounded-full font-bold hover:bg-twitter-hover transition-colors"
-          >
-            Entrar
-          </a>
+          <>
+            <Link
+              href="/auth"
+              className=" text-gray-500 dark:text-white text-sm border px-6 py-2 rounded-full font-semibold cursor-pointer transition-colors"
+            >
+              Registrar-se
+            </Link>
+            <Link
+              href="/auth"
+              className="bg-twitter text-sm border text-white px-12 py-2 rounded-full font-bold dark:border-twitter cursor-pointer transition-colors"
+            >
+              Login
+            </Link>
+          </>
         )}
       </div>
     </header>
