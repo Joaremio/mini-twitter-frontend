@@ -51,7 +51,7 @@ Certifique-se de ter o Node.js (v20+) instalado e o backend rodando na porta 300
 bun install
 
 # 2. Configurar variável de ambiente
-# Crie um arquivo .env.local com: NEXT_PUBLIC_API_URL=http://localhost:3000
+Crie um arquivo .env.local com: NEXT_PUBLIC_API_URL=http://localhost:3000
 
 # Iniciar em modo de desenvolvimento
 bun run dev
