@@ -1,9 +1,9 @@
 export const MOCK_POSTS = [
   {
     id: "1",
-    title: "Primeiro Post do Desafio! 🚀",
+    title: "Novo álbum da Taylor Swift não sai da minha cabeça 🎶",
     content:
-      "Refatorando todo o frontend para Next.js 15 e Tailwind v4. O modo dark ficou animal!",
+      "Reassistindo performances da Taylor Swift e cada era é simplesmente icônica.",
     authorName: "Joaremio Neto",
     authorId: 1,
     likesCount: 12,
@@ -11,9 +11,9 @@ export const MOCK_POSTS = [
   },
   {
     id: "2",
-    title: "Scroll infinito funcionando 👀",
+    title: "Beyoncé entregando tudo na Renaissance Tour 👑",
     content:
-      "Finalmente consegui implementar o infinite scroll com React Query. Muito satisfatório!",
+      "Não consigo parar de ver vídeos da Beyoncé ao vivo, presença absurda!",
     authorName: "Ana Silva",
     authorId: 2,
     likesCount: 8,
@@ -21,8 +21,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "3",
-    title: "Bug estranho hoje 🤯",
-    content: "Passei 2h debugando e era só um typo... clássico.",
+    title: "Olivia Rodrigo e seus hits emocionais 💔",
+    content: "Aquelas músicas da Olivia Rodrigo que te pegam desprevenido.",
     authorName: "Carlos Souza",
     authorId: 3,
     likesCount: 5,
@@ -30,8 +30,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "4",
-    title: "Dark mode é vida 🌙",
-    content: "Não consigo mais usar app sem dark mode.",
+    title: "Billie Eilish e sua estética única 🌙",
+    content: "Os visuais da Billie Eilish são outro nível de criatividade.",
     authorName: "Mariana Lima",
     authorId: 4,
     likesCount: 15,
@@ -39,8 +39,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "5",
-    title: "React Query salvando tempo ⚡",
-    content: "Cache automático e paginação fácil.",
+    title: "Dua Lipa só lança hit atrás de hit 💃",
+    content: "Dua Lipa não erra, cada música vira sucesso instantâneo.",
     authorName: "Lucas Rocha",
     authorId: 5,
     likesCount: 9,
@@ -48,8 +48,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "6",
-    title: "Deploy feito com sucesso 🚀",
-    content: "Subi o projeto hoje e deu tudo certo!",
+    title: "Ariana Grande e seus vocais impecáveis 🎤",
+    content: "Os agudos da Ariana Grande são simplesmente absurdos.",
     authorName: "Fernanda Alves",
     authorId: 6,
     likesCount: 11,
@@ -57,8 +57,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "7",
-    title: "CSS às vezes irrita 😅",
-    content: "Centralizar uma div nunca foi tão difícil.",
+    title: "Doja Cat sempre inovando 🐱",
+    content: "Doja Cat mistura estilos e sempre entrega algo diferente.",
     authorName: "Rafael Costa",
     authorId: 7,
     likesCount: 7,
@@ -66,8 +66,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "8",
-    title: "Aprendendo Next.js 📚",
-    content: "Cada dia entendendo melhor SSR.",
+    title: "Sabrina Carpenter dominando o pop atual ✨",
+    content: "Cada lançamento da Sabrina Carpenter é mais viciante.",
     authorName: "Juliana Martins",
     authorId: 8,
     likesCount: 10,
@@ -75,8 +75,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "9",
-    title: "UI simples > UI complexa 🎨",
-    content: "Menos é mais.",
+    title: "RAYE finalmente recebendo reconhecimento 👏",
+    content: "RAYE merece todo o hype que está recebendo agora.",
     authorName: "Pedro Henrique",
     authorId: 9,
     likesCount: 6,
@@ -84,8 +84,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "10",
-    title: "Organizando código 🧠",
-    content: "Hooks separados deixam tudo melhor.",
+    title: "Chappell Roan é o futuro do pop 🌈",
+    content: "A estética e energia da Chappell Roan são únicas.",
     authorName: "Camila Ferreira",
     authorId: 10,
     likesCount: 13,
@@ -93,8 +93,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "11",
-    title: "Produtividade hoje 💻",
-    content: "Dia rendeu bastante.",
+    title: "Tate McRae não sai da playlist 🎧",
+    content: "As músicas da Tate McRae são perfeitas pra qualquer momento.",
     authorName: "Bruno Ribeiro",
     authorId: 11,
     likesCount: 4,
@@ -102,8 +102,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "12",
-    title: "Testando novas libs 🔍",
-    content: "Explorando o ecossistema JS.",
+    title: "Karol G levando o pop latino ao topo 🔥",
+    content: "Karol G está dominando charts no mundo inteiro.",
     authorName: "Patricia Gomes",
     authorId: 12,
     likesCount: 3,
@@ -111,8 +111,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "13",
-    title: "Erro 500 de novo 😭",
-    content: "Backend caiu no pior momento.",
+    title: "SZA e suas vibes únicas 🌊",
+    content: "As músicas da SZA são uma experiência completa.",
     authorName: "Diego Santos",
     authorId: 13,
     likesCount: 2,
@@ -120,8 +120,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "14",
-    title: "UX importa muito 📱",
-    content: "Detalhes fazem diferença.",
+    title: "Rosalía quebrando padrões no pop 💥",
+    content: "Rosalía mistura culturas e cria algo totalmente novo.",
     authorName: "Larissa Melo",
     authorId: 14,
     likesCount: 14,
@@ -129,8 +129,8 @@ export const MOCK_POSTS = [
   },
   {
     id: "15",
-    title: "Finalizando o projeto 🎉",
-    content: "Só ajustes finais agora.",
+    title: "Cardi B segue sendo referência 👑",
+    content: "Cardi B continua influenciando toda uma geração.",
     authorName: "Gabriel Torres",
     authorId: 15,
     likesCount: 20,
